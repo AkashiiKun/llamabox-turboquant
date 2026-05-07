@@ -1,0 +1,19 @@
+FROM archlinux:latest
+
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm \
+    base-devel \
+    cmake \
+    git \
+    rocm-hip-sdk \
+    && pacman -Scc --noconfirm
+
+ENV ROCM_PATH=/opt/rocm
+ENV PATH="/opt/rocm/bin:${PATH}"
+
+COPY scripts/build-llama.sh /usr/bin/build-llama
+COPY scripts/build-llama-rocm.sh /usr/bin/build-llama-rocm
+RUN chmod +x /usr/bin/build-llama /usr/bin/build-llama-rocm
+
+WORKDIR /root
+CMD ["/usr/bin/build-llama"]

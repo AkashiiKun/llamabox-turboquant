@@ -1,0 +1,32 @@
+FROM archlinux:latest
+
+# Set up a user for makepkg
+RUN useradd -m builder && \
+    echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm \
+    base-devel \
+    cmake \
+    git \
+    sudo \
+    && pacman -Scc --noconfirm
+
+# Install intel-oneapi-basekit from AUR (this will take a long time and a lot of space)
+# In a real CI, you'd likely use a pre-built image or a custom repo.
+USER builder
+WORKDIR /home/builder
+RUN git clone https://aur.archlinux.org/intel-oneapi-basekit.git && \
+    cd intel-oneapi-basekit && \
+    makepkg -si --noconfirm && \
+    cd .. && rm -rf intel-oneapi-basekit
+
+USER root
+WORKDIR /root
+
+COPY scripts/build-llama.sh /usr/bin/build-llama
+COPY scripts/build-llama-sycl.sh /usr/bin/build-llama-sycl
+RUN chmod +x /usr/bin/build-llama /usr/bin/build-llama-sycl
+
+WORKDIR /root
+CMD ["/usr/bin/build-llama"]

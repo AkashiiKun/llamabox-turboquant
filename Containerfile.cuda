@@ -1,0 +1,19 @@
+FROM archlinux:latest
+
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm \
+    base-devel \
+    cmake \
+    git \
+    cuda \
+    && pacman -Scc --noconfirm
+
+ENV PATH="/opt/cuda/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
+
+COPY scripts/build-llama.sh /usr/bin/build-llama
+COPY scripts/build-llama-cuda.sh /usr/bin/build-llama-cuda
+RUN chmod +x /usr/bin/build-llama /usr/bin/build-llama-cuda
+
+WORKDIR /root
+CMD ["/usr/bin/build-llama"]
