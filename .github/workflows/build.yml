@@ -39,6 +39,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Lowercase image name
+        run: |
+          echo "IMAGE_NAME_LOWER=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -46,7 +50,7 @@ jobs:
           file: ./Containerfile.${{ matrix.variant }}
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.variant }}-${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:${{ matrix.variant }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:${{ matrix.variant }}-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
