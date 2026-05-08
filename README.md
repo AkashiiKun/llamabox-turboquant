@@ -6,7 +6,7 @@ Davincibox-style project that streamlines building and running [llama.cpp](https
 
 - **Multi-backend support**: Vulkan, CUDA, ROCm, and SYCL.
 - **Atomic/Immutable Friendly**: Designed for Fedora Silverblue, Bazzite, etc.
-- **Arch Linux based**: Rolling release containers for latest dependencies.
+- **Fedora Linux based**: Stable but up to date
 - **Easy Setup**: Single host-side script for GPU detection and container creation.
 
 ## Quick Start
