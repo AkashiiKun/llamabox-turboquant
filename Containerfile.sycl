@@ -1,6 +1,7 @@
 FROM archlinux:latest
 
-RUN pacman -Syu --noconfirm && \
+RUN pacman -Sy --noconfirm archlinux-keyring && \
+    pacman -Syu --noconfirm && \
     pacman -S --noconfirm \
     base-devel \
     cmake \
