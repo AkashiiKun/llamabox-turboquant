@@ -1,7 +1,6 @@
 FROM archlinux:latest
 
-RUN pacman -Syu --noconfirm && \
-    pacman -S --needed --noconfirm \
+RUN pacman -Sy --noconfirm \
     base-devel \
     cmake \
     git \
