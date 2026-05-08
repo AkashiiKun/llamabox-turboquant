@@ -1,6 +1,6 @@
 FROM fedora:latest
 
-RUN dnf install -y \
+RUN dnf install -y --refresh --nogpgcheck \
     gcc-c++ \
     cmake \
     git \

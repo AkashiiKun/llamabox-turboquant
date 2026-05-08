@@ -76,7 +76,7 @@ needed.
 - **Vulkan**: Requires `vulkan-loader-devel`, `vulkan-headers`, and `shaderc`. No vendor-specific driver libraries are needed in the image — Distrobox passes `/dev/dri` through from the host.
 - **CUDA**: Requires `cuda-toolkit` from the NVIDIA Fedora repository. Do not bundle NVIDIA driver libraries — Distrobox passes these through from the host.
 - **ROCm**: Use `rocm-hip` and `rocm-runtime` from the official Fedora repos. `ROCM_PATH` should be set to `/usr` in the image environment.
-- **SYCL**: `intel-oneapi-compiler-dpcpp-cpp` and `intel-oneapi-mkl-devel` from the Intel repository. The build script must source `/opt/intel/oneapi/setvars.sh` before invoking CMake. The DPC++ compilers `icx`/`icpx` must be used instead of GCC.
+- **SYCL**: `intel-oneapi-compiler-dpcpp-cpp` and `intel-oneapi-mkl` from the Intel repository. The build script must source `/opt/intel/oneapi/setvars.sh` before invoking CMake. The DPC++ compilers `icx`/`icpx` must be used instead of GCC.
 
 ---
 

@@ -1,9 +1,8 @@
 FROM fedora:latest
 
-RUN dnf install -y 'dnf-command(config-manager)' && \
-    dnf config-manager addrepo --from-repofile=https://developer.download.nvidia.com/compute/cuda/repos/fedora$(rpm -E %fedora)/x86_64/cuda-fedora$(rpm -E %fedora).repo && \
-    dnf clean all && \
-    dnf install -y \
+RUN printf "[cuda-fedora-x86_64]\nname=cuda-fedora-x86_64\nbaseurl=https://developer.download.nvidia.com/compute/cuda/repos/fedora\$(rpm -E %fedora)/x86_64\nenabled=1\ngpgcheck=0\n" > /etc/yum.repos.d/cuda.repo
+
+RUN dnf install -y \
     gcc-c++ \
     cmake \
     git \

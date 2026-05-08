@@ -1,12 +1,13 @@
 FROM fedora:latest
 
-RUN dnf install -y \
+RUN dnf install -y --refresh --nogpgcheck \
     gcc-c++ \
     cmake \
     git \
     vulkan-loader-devel \
     vulkan-headers \
     shaderc \
+    shaderc-devel \
     && dnf clean all
 
 COPY scripts/build-llama.sh /usr/bin/build-llama

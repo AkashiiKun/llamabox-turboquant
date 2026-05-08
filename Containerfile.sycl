@@ -1,24 +1,16 @@
 FROM fedora:latest
 
-RUN tee /etc/yum.repos.d/oneAPI.repo << EOF
-[oneAPI]
-name=Intel® oneAPI repository
-baseurl=https://yum.repos.intel.com/oneapi
-enabled=1
-gpgcheck=0
-repo_gpgcheck=0
-gpgkey=https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-priority=150
-EOF
+RUN printf "[oneAPI]\nname=Intel® oneAPI repository\nbaseurl=https://yum.repos.intel.com/oneapi\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=0\ngpgkey=https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB\npriority=150\n" > /etc/yum.repos.d/oneAPI.repo
 
 RUN dnf install -y \
     gcc-c++ \
     cmake \
     git \
     intel-oneapi-compiler-dpcpp-cpp \
-    intel-oneapi-mkl-devel \
+    intel-oneapi-mkl \
     intel-compute-runtime \
-    level-zero \
+    intel-level-zero \
+    oneapi-level-zero \
     && dnf clean all
 
 # Set up environment variables
