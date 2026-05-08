@@ -73,19 +73,10 @@ needed.
 
 ### GPU-Specific Notes
 
-- **Vulkan**: Requires `vulkan-icd-loader`, `vulkan-headers`, and `shaderc` (for
-  `glslc`, which compiles GLSL shaders at build time). No vendor-specific driver
-  libraries are needed in the image — Distrobox passes `/dev/dri` through from
-  the host, so the host's Vulkan ICD (e.g. `vulkan-radeon`, `vulkan-intel`,
-  `nvidia-utils`) is used automatically.
-- **CUDA**: Requires the `cuda` package (AUR). The NVCC compiler should be on
-  `PATH` after installation. Do not bundle NVIDIA driver libraries — Distrobox
-  passes these through from the host.
-- **ROCm**: Use `rocm-hip-sdk` from the official Arch repos where available.
-  `ROCM_PATH` should be set to `/opt/rocm` in the image environment.
-- **SYCL**: `intel-oneapi-basekit` from the AUR is large (~5 GB installed).
-  The build script must source `/opt/intel/oneapi/setvars.sh` before invoking
-  CMake. The DPC++ compilers `icx`/`icpx` must be used instead of GCC.
+- **Vulkan**: Requires `vulkan-loader-devel`, `vulkan-headers`, and `shaderc`. No vendor-specific driver libraries are needed in the image — Distrobox passes `/dev/dri` through from the host.
+- **CUDA**: Requires `cuda-toolkit` from the NVIDIA Fedora repository. Do not bundle NVIDIA driver libraries — Distrobox passes these through from the host.
+- **ROCm**: Use `rocm-hip` and `rocm-runtime` from the official Fedora repos. `ROCM_PATH` should be set to `/usr` in the image environment.
+- **SYCL**: `intel-oneapi-compiler-dpcpp-cpp` and `intel-oneapi-mkl-devel` from the Intel repository. The build script must source `/opt/intel/oneapi/setvars.sh` before invoking CMake. The DPC++ compilers `icx`/`icpx` must be used instead of GCC.
 
 ---
 
@@ -239,3 +230,7 @@ checklist after any change:
 - [Arch Linux Vulkan wiki](https://wiki.archlinux.org/title/Vulkan)
 - [Arch Linux ROCm wiki](https://wiki.archlinux.org/title/GPGPU#ROCm)
 - [Intel oneAPI on Arch (AUR)](https://aur.archlinux.org/packages/intel-oneapi-basekit)
+e/Vulkan)
+- [Arch Linux ROCm wiki](https://wiki.archlinux.org/title/GPGPU#ROCm)
+- [Intel oneAPI on Arch (AUR)](https://aur.archlinux.org/packages/intel-oneapi-basekit)
+oneapi-basekit)

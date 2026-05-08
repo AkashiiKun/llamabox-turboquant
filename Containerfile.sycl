@@ -1,21 +1,27 @@
-FROM archlinux:latest
+FROM fedora:latest
 
-RUN pacman-key --init && \
-    pacman-key --populate archlinux && \
-    pacman -Sy --noconfirm archlinux-keyring && \
-    pacman -Syu --noconfirm && \
-    pacman -S --noconfirm \
-    base-devel \
+RUN tee /etc/yum.repos.d/oneAPI.repo << EOF
+[oneAPI]
+name=Intel® oneAPI repository
+baseurl=https://yum.repos.intel.com/oneapi
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+priority=150
+EOF
+
+RUN dnf install -y \
+    gcc-c++ \
     cmake \
     git \
-    intel-oneapi-dpcpp-cpp \
-    intel-oneapi-mkl \
-    intel-oneapi-mkl-sycl \
+    intel-oneapi-compiler-dpcpp-cpp \
+    intel-oneapi-mkl-devel \
     intel-compute-runtime \
-    level-zero-loader \
-    && pacman -Scc --noconfirm
+    level-zero \
+    && dnf clean all
 
-# Set up environment variables (similar to what setvars.sh does)
+# Set up environment variables
 ENV PATH="/opt/intel/oneapi/compiler/latest/bin:/opt/intel/oneapi/mkl/latest/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib:${LD_LIBRARY_PATH}"
 

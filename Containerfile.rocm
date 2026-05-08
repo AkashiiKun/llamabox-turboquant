@@ -1,18 +1,17 @@
-FROM archlinux:latest
+FROM fedora:latest
 
-RUN pacman-key --init && \
-    pacman-key --populate archlinux && \
-    pacman -Sy --noconfirm archlinux-keyring && \
-    pacman -Syu --noconfirm && \
-    pacman -S --noconfirm \
-    base-devel \
+RUN dnf install -y \
+    gcc-c++ \
     cmake \
     git \
-    rocm-hip-sdk \
-    && pacman -Scc --noconfirm
+    rocm-hip \
+    rocm-runtime \
+    hipcc \
+    rocminfo \
+    && dnf clean all
 
-ENV ROCM_PATH=/opt/rocm
-ENV PATH="/opt/rocm/bin:${PATH}"
+ENV ROCM_PATH=/usr
+ENV PATH="/usr/bin:${PATH}"
 
 COPY scripts/build-llama.sh /usr/bin/build-llama
 COPY scripts/build-llama-rocm.sh /usr/bin/build-llama-rocm

@@ -1,18 +1,17 @@
-FROM archlinux:latest
+FROM fedora:latest
 
-RUN pacman-key --init && \
-    pacman-key --populate archlinux && \
-    pacman -Sy --noconfirm archlinux-keyring && \
-    pacman -Syu --noconfirm && \
-    pacman -S --noconfirm \
-    base-devel \
+RUN dnf install -y 'dnf-command(config-manager)' && \
+    dnf config-manager addrepo --from-repofile=https://developer.download.nvidia.com/compute/cuda/repos/fedora$(rpm -E %fedora)/x86_64/cuda-fedora$(rpm -E %fedora).repo && \
+    dnf clean all && \
+    dnf install -y \
+    gcc-c++ \
     cmake \
     git \
-    cuda \
-    && pacman -Scc --noconfirm
+    cuda-toolkit \
+    && dnf clean all
 
-ENV PATH="/opt/cuda/bin:${PATH}"
-ENV LD_LIBRARY_PATH="/opt/cuda/lib64:${LD_LIBRARY_PATH}"
+ENV PATH="/usr/local/cuda/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
 
 COPY scripts/build-llama.sh /usr/bin/build-llama
 COPY scripts/build-llama-cuda.sh /usr/bin/build-llama-cuda

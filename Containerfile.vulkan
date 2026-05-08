@@ -1,17 +1,13 @@
-FROM archlinux:latest
+FROM fedora:latest
 
-RUN pacman-key --init && \
-    pacman-key --populate archlinux && \
-    pacman -Sy --noconfirm archlinux-keyring && \
-    pacman -Syu --noconfirm && \
-    pacman -S --noconfirm \
-    base-devel \
+RUN dnf install -y \
+    gcc-c++ \
     cmake \
     git \
-    vulkan-icd-loader \
+    vulkan-loader-devel \
     vulkan-headers \
     shaderc \
-    && pacman -Scc --noconfirm
+    && dnf clean all
 
 COPY scripts/build-llama.sh /usr/bin/build-llama
 COPY scripts/build-llama-vulkan.sh /usr/bin/build-llama-vulkan
