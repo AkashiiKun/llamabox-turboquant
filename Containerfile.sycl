@@ -1,12 +1,15 @@
 FROM archlinux:latest
 
 RUN pacman -Syu --noconfirm && \
-    pacman -S --noconfirm \
+    pacman -S --needed --noconfirm \
     base-devel \
     cmake \
     git \
-    intel-oneapi-compiler-dpcpp-cpp \
+    intel-oneapi-dpcpp-cpp \
     intel-oneapi-mkl \
+    intel-oneapi-mkl-sycl \
+    intel-compute-runtime \
+    level-zero-loader \
     && pacman -Scc --noconfirm
 
 # Set up environment variables (similar to what setvars.sh does)
