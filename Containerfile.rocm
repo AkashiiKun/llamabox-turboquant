@@ -1,11 +1,13 @@
-FROM fedora:latest
+FROM fedora:43
 
 RUN dnf install -y --refresh --nogpgcheck \
     gcc-c++ \
     cmake \
     git \
     rocm-hip \
+    rocm-hip-devel \
     rocm-runtime \
+    rocm-runtime-devel \
     hipcc \
     rocminfo \
     && dnf clean all

@@ -1,11 +1,12 @@
-FROM fedora:latest
-
-RUN printf "[cuda-fedora-x86_64]\nname=cuda-fedora-x86_64\nbaseurl=https://developer.download.nvidia.com/compute/cuda/repos/fedora\$releasever/x86_64\nenabled=1\ngpgcheck=0\n" > /etc/yum.repos.d/cuda.repo
+FROM fedora:43
 
 RUN dnf install -y --refresh --nogpgcheck \
     gcc-c++ \
     cmake \
     git \
+    curl \
+    && curl -L https://developer.download.nvidia.com/compute/cuda/repos/fedora43/x86_64/cuda-fedora43.repo -o /etc/yum.repos.d/cuda.repo \
+    && dnf install -y --refresh --nogpgcheck \
     cuda-toolkit \
     && dnf clean all
 

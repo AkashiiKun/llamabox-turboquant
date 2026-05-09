@@ -1,4 +1,4 @@
-# AGENTS.md
+# GEMINI.md
 
 This file describes the project structure, conventions, and guidance for AI agents
 (and human contributors) working on llamabox.
@@ -55,7 +55,7 @@ llamabox/
 
 ### Base Conventions
 
-- All images use `fedora:latest` as the base (`FROM fedora:latest`).
+- All images use `fedora:43` as the base (`FROM fedora:43`).
 - Each `RUN` layer should be as consolidated as possible: install packages, clean
   the dnf cache (`dnf clean all`), and copy scripts all in as few
   layers as practical to keep image size down.
@@ -71,7 +71,7 @@ the respective vendor repositories.
 
 ### GPU-Specific Notes
 
-- **Vulkan**: Requires `vulkan-loader-devel`, `vulkan-headers`, and `libshaderc-devel`. No vendor-specific driver libraries are needed in the image — Distrobox passes `/dev/dri` through from the host.
+- **Vulkan**: Requires `vulkan-loader-devel`, `vulkan-headers`, and `glslc` (from the `glslc` package) along with `libshaderc-devel`. No vendor-specific driver libraries are needed in the image — Distrobox passes `/dev/dri` through from the host.
 - **CUDA**: Requires `cuda-toolkit` from the NVIDIA Fedora repository. Do not bundle NVIDIA driver libraries — Distrobox passes these through from the host.
 - **ROCm**: Use `rocm-hip` and `rocm-runtime` from the official Fedora repos. `ROCM_PATH` should be set to `/usr` in the image environment.
 - **SYCL**: `intel-oneapi-compiler-dpcpp-cpp` and `intel-oneapi-mkl` from the Intel repository. The build script must source `/opt/intel/oneapi/setvars.sh` before invoking CMake. The DPC++ compilers `icx`/`icpx` must be used instead of GCC.
@@ -229,4 +229,4 @@ checklist after any change:
 - [Fedora ROCm documentation](https://fedoraproject.org/wiki/SIGs/HC)
 - [Intel oneAPI Yum Repository](https://yum.repos.intel.com/oneapi)
 
-And remember, your contribution is very much appreciated. Thank you very much for your help!
+And remember, your contribution is very much appreciated. Thank you for your help!
