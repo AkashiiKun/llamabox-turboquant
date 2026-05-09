@@ -2,7 +2,7 @@ FROM fedora:latest
 
 RUN printf "[oneAPI]\nname=Intel® oneAPI repository\nbaseurl=https://yum.repos.intel.com/oneapi\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=0\ngpgkey=https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB\npriority=150\n" > /etc/yum.repos.d/oneAPI.repo
 
-RUN dnf install -y \
+RUN dnf install -y --refresh --nogpgcheck \
     gcc-c++ \
     cmake \
     git \

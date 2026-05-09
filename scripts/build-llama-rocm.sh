@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ROCm-specific build flags for llama.cpp
 
-export ROCM_PATH=/opt/rocm
+export ROCM_PATH=/usr
 cmake -B build \
     -DGGML_HIPBLAS=ON \
     -DCMAKE_BUILD_TYPE=Release \

@@ -23,7 +23,7 @@ The project produces four container image variants, one per GPU backend:
 | AMD | `llamabox:rocm` | ROCm / HIP |
 | Intel | `llamabox:sycl` | oneAPI SYCL / DPC++ |
 
-All images are Arch Linux-based and hosted on `ghcr.io`.
+All images are Fedora Linux-based and hosted on `ghcr.io`.
 
 
 ---
@@ -55,25 +55,23 @@ llamabox/
 
 ### Base Conventions
 
-- All images use `archlinux:latest` as the base (`FROM archlinux:latest`).
+- All images use `fedora:latest` as the base (`FROM fedora:latest`).
 - Each `RUN` layer should be as consolidated as possible: install packages, clean
-  the pacman cache (`pacman -Scc --noconfirm`), and copy scripts all in as few
+  the dnf cache (`dnf clean all`), and copy scripts all in as few
   layers as practical to keep image size down.
 - The build helper script must be copied to `/usr/bin/build-llama` and made
   executable inside the image.
-- Do **not** run `pacman -Syu` (full upgrade) in CI — pin the base image digest
+- Do **not** run `dnf update` (full upgrade) in CI — pin the base image digest
   in `build.yml` if reproducibility matters, otherwise accept rolling updates.
 
 ### Package Naming
 
-Use official Arch repo package names where possible; fall back to AUR only when
-necessary (ROCm and SYCL packages may require AUR). Avoid AUR helpers inside
-Containerfiles — use `makepkg` directly or a pre-built binary from the AUR if
-needed.
+Use official Fedora repo package names where possible. For CUDA and SYCL, use
+the respective vendor repositories.
 
 ### GPU-Specific Notes
 
-- **Vulkan**: Requires `vulkan-loader-devel`, `vulkan-headers`, and `shaderc`. No vendor-specific driver libraries are needed in the image — Distrobox passes `/dev/dri` through from the host.
+- **Vulkan**: Requires `vulkan-loader-devel`, `vulkan-headers`, and `libshaderc-devel`. No vendor-specific driver libraries are needed in the image — Distrobox passes `/dev/dri` through from the host.
 - **CUDA**: Requires `cuda-toolkit` from the NVIDIA Fedora repository. Do not bundle NVIDIA driver libraries — Distrobox passes these through from the host.
 - **ROCm**: Use `rocm-hip` and `rocm-runtime` from the official Fedora repos. `ROCM_PATH` should be set to `/usr` in the image environment.
 - **SYCL**: `intel-oneapi-compiler-dpcpp-cpp` and `intel-oneapi-mkl` from the Intel repository. The build script must source `/opt/intel/oneapi/setvars.sh` before invoking CMake. The DPC++ compilers `icx`/`icpx` must be used instead of GCC.
@@ -227,10 +225,8 @@ checklist after any change:
 - [llama.cpp CMake build docs](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md)
 - [Distrobox documentation](https://distrobox.it/)
 - [davincibox](https://github.com/zelikos/davincibox) — the inspiration for this project
-- [Arch Linux Vulkan wiki](https://wiki.archlinux.org/title/Vulkan)
-- [Arch Linux ROCm wiki](https://wiki.archlinux.org/title/GPGPU#ROCm)
-- [Intel oneAPI on Arch (AUR)](https://aur.archlinux.org/packages/intel-oneapi-basekit)
-e/Vulkan)
-- [Arch Linux ROCm wiki](https://wiki.archlinux.org/title/GPGPU#ROCm)
-- [Intel oneAPI on Arch (AUR)](https://aur.archlinux.org/packages/intel-oneapi-basekit)
-oneapi-basekit)
+- [NVIDIA CUDA Repository for Fedora](https://developer.download.nvidia.com/compute/cuda/repos/fedora/)
+- [Fedora ROCm documentation](https://fedoraproject.org/wiki/SIGs/HC)
+- [Intel oneAPI Yum Repository](https://yum.repos.intel.com/oneapi)
+
+And remember, your contribution is very much appreciated. Thank you very much for your help!
