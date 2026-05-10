@@ -25,12 +25,16 @@ error() {
 }
 
 check_dependencies() {
-    local deps=("distrobox" "podman" "lshw")
+    local deps=("distrobox" "lshw")
     for dep in "${deps[@]}"; do
         if ! command -v "$dep" &> /dev/null; then
             error "Missing dependency: $dep. Please install it and try again."
         fi
     done
+
+    if ! command -v podman &> /dev/null && ! command -v docker &> /dev/null; then
+        error "Missing dependency: podman or docker. Please install one of them and try again."
+    fi
 }
 
 detect_gpu() {
@@ -40,15 +44,15 @@ detect_gpu() {
     fi
 
     local lshw_output
-    lshw_output=$(lshw -C display 2>/dev/null)
+    lshw_output=$(lshw -C display 2>/dev/null) || error "Failed to run lshw. Please ensure it is installed and you have correct permissions."
 
     if echo "$lshw_output" | grep -iq "nvidia"; then
         BACKEND="cuda"
-    elif echo "$lshw_output" | grep -iq "advanced micro devices"; then
+    elif echo "$lshw_output" | grep -iqE "advanced micro devices|amdgpu"; then
         BACKEND="rocm"
     elif echo "$lshw_output" | grep -iq "intel corporation"; then
         # Check if there's also a discrete GPU
-        if echo "$lshw_output" | grep -iqE "nvidia|advanced micro devices"; then
+        if echo "$lshw_output" | grep -iqE "nvidia|advanced micro devices|amdgpu"; then
             warn "Both Intel and discrete GPU detected. Defaulting to discrete GPU."
             # Re-run detection to pick the discrete one properly
             if echo "$lshw_output" | grep -iq "nvidia"; then
@@ -81,9 +85,11 @@ create() {
     info "Building llama.cpp inside the container..."
     distrobox enter "$CONTAINER_NAME" -- /usr/bin/build-llama
 
+    info "Ensuring host export directory exists: $HOME/.local/bin"
+    mkdir -p "$HOME/.local/bin"
+
     info "Exporting binaries to the host..."
     distrobox enter "$CONTAINER_NAME" -- distrobox-export --bin /usr/local/bin/llama-cli --export-path "$HOME/.local/bin"
-    # Export other common tools if needed
     distrobox enter "$CONTAINER_NAME" -- distrobox-export --bin /usr/local/bin/llama-server --export-path "$HOME/.local/bin"
 
     info "Setup complete! You can now run 'llama-cli' from your terminal."

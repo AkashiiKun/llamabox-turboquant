@@ -39,7 +39,8 @@ source "$VARIANT_SCRIPT"
 
 # 3. Symlink built binaries to /usr/local/bin for easy export
 # Assuming the variant script ran cmake and cmake --build
-mkdir -p /usr/local/bin
-find "$BUILD_DIR/bin" -maxdepth 1 -executable -type f -exec ln -sf {} /usr/local/bin/ \;
+# Use sudo as /usr/local/bin is root-owned
+sudo mkdir -p /usr/local/bin
+sudo find "$BUILD_DIR/bin" -maxdepth 1 -executable -type f -exec ln -sf {} /usr/local/bin/ \;
 
 echo "Build and symlinking complete."
