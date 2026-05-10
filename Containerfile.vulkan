@@ -4,6 +4,8 @@ RUN dnf install -y --refresh --nogpgcheck \
     gcc-c++ \
     cmake \
     git \
+    make \
+    ninja-build \
     vulkan-loader-devel \
     vulkan-headers \
     glslc \

@@ -5,13 +5,16 @@ RUN dnf install -y --refresh --nogpgcheck \
     cmake \
     git \
     curl \
-    && curl -L https://developer.download.nvidia.com/compute/cuda/repos/fedora43/x86_64/cuda-fedora43.repo -o /etc/yum.repos.d/cuda.repo \
+    make \
+    ninja-build \
+    && curl -L https://developer.download.nvidia.com/compute/cuda/repos/fedora41/x86_64/cuda-fedora41.repo -o /etc/yum.repos.d/cuda.repo \
     && dnf install -y --refresh --nogpgcheck \
     cuda-toolkit \
     && dnf clean all
 
 ENV PATH="/usr/local/cuda/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
+ENV CUDACXX="/usr/local/cuda/bin/nvcc"
 
 COPY scripts/build-llama.sh /usr/bin/build-llama
 COPY scripts/build-llama-cuda.sh /usr/bin/build-llama-cuda

@@ -6,6 +6,8 @@ RUN dnf install -y --refresh --nogpgcheck \
     gcc-c++ \
     cmake \
     git \
+    make \
+    ninja-build \
     intel-oneapi-compiler-dpcpp-cpp \
     intel-oneapi-mkl \
     intel-compute-runtime \
