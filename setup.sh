@@ -6,7 +6,7 @@
 set -e
 
 CONTAINER_NAME="llamabox"
-IMAGE_BASE="ghcr.io/mienaiknife/llamabox"
+IMAGE_BASE="ghcr.io/mienaiKnife/llamabox"
 BACKEND=""
 
 # --- Utility Functions ---
