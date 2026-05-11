@@ -141,7 +141,9 @@ below) and then symlinks built binaries to `/usr/local/bin/`.
 | Variant | Key flags |
 |---------|-----------|
 | `vulkan` | `-DGGML_VULKAN=ON -DCMAKE_BUILD_TYPE=Release` |
-| `cuda` | `-DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release` |
+| `cuda` | `-DGGML_CUDA=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_FLAGS="-allow-unsupported-compiler -D__NV_NO_HOST_COMPILER_CHECK=1"` |
+
+The `cuda` variant requires explicit environment variable exports (`CUDA_PATH`, `PATH`, `CUDACXX`) in the build script to prevent host leakage from Distrobox and ensure `nvcc` is found at `/usr/local/cuda/bin/nvcc`.
 | `rocm` | `-DGGML_HIPBLAS=ON -DCMAKE_BUILD_TYPE=Release` |
 | `sycl` | `-DGGML_SYCL=ON -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx -DCMAKE_BUILD_TYPE=Release` |
 

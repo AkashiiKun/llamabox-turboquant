@@ -1,4 +1,4 @@
-FROM fedora:43
+FROM fedora:41
 
 RUN dnf install -y --refresh --nogpgcheck \
     gcc-c++ \
@@ -10,6 +10,7 @@ RUN dnf install -y --refresh --nogpgcheck \
     && curl -L https://developer.download.nvidia.com/compute/cuda/repos/fedora41/x86_64/cuda-fedora41.repo -o /etc/yum.repos.d/cuda.repo \
     && dnf install -y --refresh --nogpgcheck \
     cuda-toolkit \
+    && ln -s /usr/local/cuda-* /usr/local/cuda \
     && dnf clean all
 
 ENV PATH="/usr/local/cuda/bin:${PATH}"
