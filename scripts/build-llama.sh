@@ -18,6 +18,9 @@ cd "$LLAMA_DIR"
 echo "Updating llama.cpp..."
 git pull
 
+# Use a dedicated build directory for the container to avoid host pollution
+export BUILD_DIR="${LLAMA_DIR}/build-container"
+
 # 2. Determine backend and run variant-specific build
 # The variant-specific script is expected to be at /usr/bin/build-llama-variant
 VARIANT_SCRIPT=""
