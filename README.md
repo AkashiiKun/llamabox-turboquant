@@ -77,7 +77,7 @@ The `setup.sh` script supports several subcommands and flags:
 
 ## Disclaimer
 
-The NVIDIA backend is currently the primary testing target. **ROCm (AMD) and SYCL (Intel) installations are currently untested.** If you encounter issues or have successfully used these backends, please [open an issue](https://github.com/mienaiKnife/llamabox/issues).
+This is a vibecoded project. The NVIDIA backend is currently the primary testing target. **ROCm (AMD) and SYCL (Intel) installations are currently untested.** If you encounter issues or have successfully used these backends, please [open an issue](https://github.com/mienaiKnife/llamabox/issues).
 
 ## Development
 

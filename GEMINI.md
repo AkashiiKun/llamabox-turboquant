@@ -55,7 +55,9 @@ llamabox/
 
 ### Base Conventions
 
-- All images use `fedora:44` as the base (`FROM fedora:44`).
+- Images use a recent stable Fedora release that is compatible with the required GPU toolkit and vendor repositories. Agents should use
+web search to identify recent stable Fedora releases instead of relying on their knowledge bases. If you pick a version that's
+not the latest, document why.
 - Each `RUN` layer should be as consolidated as possible: install packages, clean
   the dnf cache (`dnf clean all`), and copy scripts all in as few
   layers as practical to keep image size down.
