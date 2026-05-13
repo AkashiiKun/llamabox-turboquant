@@ -1,4 +1,4 @@
-FROM fedora:43
+FROM fedora:44
 
 RUN printf "[oneAPI]\nname=Intel® oneAPI repository\nbaseurl=https://yum.repos.intel.com/oneapi\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=0\ngpgkey=https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB\npriority=150\n" > /etc/yum.repos.d/oneAPI.repo
 

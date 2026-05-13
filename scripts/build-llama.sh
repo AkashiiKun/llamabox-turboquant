@@ -18,22 +18,26 @@ cd "$LLAMA_DIR"
 echo "Updating llama.cpp..."
 git pull
 
-# Use a dedicated build directory for the container to avoid host pollution
-export BUILD_DIR="${LLAMA_DIR}/build-container"
+# Determine variant for build directory suffix
+VARIANT="unknown"
+if [ -f "/usr/bin/build-llama-cuda" ]; then
+    VARIANT="cuda"
+elif [ -f "/usr/bin/build-llama-rocm" ]; then
+    VARIANT="rocm"
+elif [ -f "/usr/bin/build-llama-sycl" ]; then
+    VARIANT="sycl"
+elif [ -f "/usr/bin/build-llama-vulkan" ]; then
+    VARIANT="vulkan"
+fi
+
+# Use a dedicated build directory per variant to avoid cache poisoning
+export BUILD_DIR="${LLAMA_DIR}/build-$VARIANT"
+echo "Using build directory: $BUILD_DIR"
 
 # 2. Determine backend and run variant-specific build
-# The variant-specific script is expected to be at /usr/bin/build-llama-variant
-VARIANT_SCRIPT=""
-if [ -f "/usr/bin/build-llama-cuda" ]; then
-    VARIANT_SCRIPT="/usr/bin/build-llama-cuda"
-elif [ -f "/usr/bin/build-llama-rocm" ]; then
-    VARIANT_SCRIPT="/usr/bin/build-llama-rocm"
-elif [ -f "/usr/bin/build-llama-sycl" ]; then
-    VARIANT_SCRIPT="/usr/bin/build-llama-sycl"
-elif [ -f "/usr/bin/build-llama-vulkan" ]; then
-    VARIANT_SCRIPT="/usr/bin/build-llama-vulkan"
-else
-    echo "Error: No variant-specific build script found in /usr/bin/"
+VARIANT_SCRIPT="/usr/bin/build-llama-$VARIANT"
+if [ ! -f "$VARIANT_SCRIPT" ]; then
+    echo "Error: No variant-specific build script found at $VARIANT_SCRIPT"
     exit 1
 fi
 

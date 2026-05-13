@@ -2,7 +2,7 @@
 
 **llamabox** is a [Davincibox](https://github.com/zelikos/davincibox)-style project designed to streamline the building and execution of [llama.cpp](https://github.com/ggml-org/llama.cpp) on Linux using [Distrobox](https://github.com/89luca89/distrobox).
 
-It is particularly useful for users of **immutable or atomic Linux distributions** (such as Fedora Silverblue, Bazzite, or openSUSE Aeon) where installing complex GPU compute toolkits (CUDA, ROCm, etc.) directly on the host system is undesirable or difficult.
+It is primarily intended for use with **immutable/atomic Linux distributions** (such as Fedora Silverblue, Bazzite, or openSUSE Aeon) where installing complex GPU compute toolkits (CUDA, ROCm, etc.) directly on the host system is undesirable or difficult.
 
 ## Features
 
@@ -32,7 +32,7 @@ Ensure you have the following installed on your host machine:
 
 ## Quick Start
 
-To set up llamabox and build `llama.cpp` automatically, run this on your host machine:
+Run this on your host machine:
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/mienaiKnife/llamabox/main/setup.sh | bash

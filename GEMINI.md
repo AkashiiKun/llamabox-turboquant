@@ -55,7 +55,7 @@ llamabox/
 
 ### Base Conventions
 
-- All images use `fedora:43` as the base (`FROM fedora:43`).
+- All images use `fedora:44` as the base (`FROM fedora:44`).
 - Each `RUN` layer should be as consolidated as possible: install packages, clean
   the dnf cache (`dnf clean all`), and copy scripts all in as few
   layers as practical to keep image size down.
@@ -63,6 +63,9 @@ llamabox/
   executable inside the image.
 - Do **not** run `dnf update` (full upgrade) in CI — pin the base image digest
   in `build.yml` if reproducibility matters, otherwise accept rolling updates.
+- **Build Isolation**: To prevent host pollution and cache poisoning when switching
+  between GPU backends, the build script uses variant-specific build directories
+  in the user's home (e.g., `~/llama.cpp/build-cuda`, `~/llama.cpp/build-rocm`).
 
 ### Package Naming
 
@@ -231,4 +234,4 @@ checklist after any change:
 - [Fedora ROCm documentation](https://fedoraproject.org/wiki/SIGs/HC)
 - [Intel oneAPI Yum Repository](https://yum.repos.intel.com/oneapi)
 
-And remember, your contribution is very much appreciated. Thank you for your help!
+Your contribution is very much appreciated. Thank you for your help!

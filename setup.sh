@@ -79,8 +79,18 @@ create() {
 
     local image="$IMAGE_BASE:$BACKEND"
 
+    # Warn about host environment pollution if CUDA is used
+    if [ "$BACKEND" = "cuda" ]; then
+        if [ -n "$CUDA_PATH" ] || [ -n "$CUDACXX" ]; then
+            warn "Host CUDA environment variables detected (CUDA_PATH/CUDACXX)."
+            warn "These may leak into the container and cause build failures."
+            warn "llamabox will attempt to sanitize them inside the container."
+        fi
+    fi
+
     info "Creating Distrobox container: $CONTAINER_NAME using image $image"
-    distrobox create --name "$CONTAINER_NAME" --image "$image" --yes
+    # Use --pull to ensure we have the latest Fedora 44 based images
+    distrobox create --name "$CONTAINER_NAME" --image "$image" --pull --yes
 
     info "Building llama.cpp inside the container..."
     distrobox enter "$CONTAINER_NAME" -- /usr/bin/build-llama
