@@ -89,9 +89,13 @@ create() {
     fi
 
     info "Creating Distrobox container: $CONTAINER_NAME using image $image"
-    # Use --pull to ensure we have the latest Fedora 44 based images
+    # Use --pull to ensure we have the latest Fedora 41 based images
     distrobox create --name "$CONTAINER_NAME" --image "$image" --pull --yes
-
+    if [ "$BACKEND" = "cuda" ]; then
+    distrobox create --name "$CONTAINER_NAME" --image "$image" --pull --yes --nvidia
+    else
+    distrobox create --name "$CONTAINER_NAME" --image "$image" --pull --yes
+    fi
     info "Building llama.cpp inside the container..."
     distrobox enter "$CONTAINER_NAME" -- /usr/bin/build-llama
 
