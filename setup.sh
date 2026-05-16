@@ -90,7 +90,6 @@ create() {
 
     info "Creating Distrobox container: $CONTAINER_NAME using image $image"
     # Use --pull to ensure we have the latest Fedora 41 based images
-    distrobox create --name "$CONTAINER_NAME" --image "$image" --pull --yes
     if [ "$BACKEND" = "cuda" ]; then
     distrobox create --name "$CONTAINER_NAME" --image "$image" --pull --yes --nvidia
     else
