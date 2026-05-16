@@ -35,7 +35,7 @@ Ensure you have the following installed on your host machine:
 Run this on your host machine:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/mienaiKnife/llamabox/main/setup.sh | bash
+curl -sSL https://raw.githubusercontent.com/AkashiiKun/llamabox-turboquant/main/setup.sh | bash
 ```
 
 This will:
