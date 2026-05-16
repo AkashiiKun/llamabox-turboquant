@@ -11,7 +11,7 @@ BUILD_DIR="$LLAMA_DIR/build"
 # 1. Clone or update llama.cpp
 if [ ! -d "$LLAMA_DIR" ]; then
     echo "Cloning llama.cpp..."
-    git clone https://github.com/ggml-org/llama.cpp "$LLAMA_DIR"
+    git clone https://github.com/TheTom/llama-cpp-turboquant "$LLAMA_DIR"
 fi
 
 cd "$LLAMA_DIR"
